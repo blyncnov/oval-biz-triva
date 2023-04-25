@@ -1,5 +1,5 @@
+let IdentityRapped = 'APP ID';
 const { Worker, isMainThread, threadId } = require('worker_threads');
-
 const express = require('express');
 const Ably = require('ably');
 const envConfig = require('dotenv').config();
@@ -90,9 +90,9 @@ function generateNewQuizRoom(hostNickname, hostRoomCode, hostClientId) {
         hostClientId: hostClientId
       }
     });
-    console.log(`CREATING NEW THREAD WITH ID ${threadId}`);
+    console.log(`CREATING NEW THREAD WITH ID YYYY ${threadId}`);
     worker.on('error', (error) => {
-      console.log(`WORKER EXITED DUE TO AN ERROR ${error}`);
+      console.log(`WORKER EXITED DUE TO AN ERROR YYYY ${error}`);
     });
     worker.on('message', (msg) => {
       if (msg.roomCode && !msg.killWorker) {
@@ -112,9 +112,9 @@ function generateNewQuizRoom(hostNickname, hostRoomCode, hostClientId) {
     });
 
     worker.on('exit', (code) => {
-      console.log(`WORKER EXITED WITH THREAD ID ${threadId}`);
+      console.log(`WORKER EXITED WITH THREAD ID XXXX ${threadId}`);
       if (code !== 0) {
-        console.log(`WORKER EXITED DUE TO AN ERROR WITH CODE ${code}`);
+        console.log(`WORKER EXITED DUE TO AN ERROR WITH CODE XXXX ${code}`);
       }
     });
   }

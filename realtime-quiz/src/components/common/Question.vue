@@ -91,15 +91,17 @@ export default {
         let quizId = 9;
         let questionID = question_id;
 
-        // Quiz Take Endpoint
-        axios.post(`${BASE_URL}/quiztake/${quizId}/${questionID}`, {
-          answers: [choices_ids[index]],
-          comment: "Optional"
-        }, { headers: { "Authorization": `Bearer ${tokenStr}` } }).then((response) => {
-          console.log(response);
-        }).catch((error) => {
-          console.log(error);
-        })
+        console.log(tokenStr, questionID, quizId, BASE_URL, axios);
+
+        // // Quiz Take Endpoint
+        // axios.post(`${BASE_URL}/quiztake/${quizId}/${questionID}`, {
+        //   answers: [choices_ids[index]],
+        //   comment: "Optional"
+        // }, { headers: { "Authorization": `Bearer ${tokenStr}` } }).then((response) => {
+        //   console.log(response);
+        // }).catch((error) => {
+        //   console.log(error);
+        // })
       }
     }
     // Quiz Take Endpoint Ends

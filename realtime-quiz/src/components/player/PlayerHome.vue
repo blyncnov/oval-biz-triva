@@ -232,12 +232,14 @@ export default {
       let tokenStr = localStorage.getItem("token");
       let quizId = 9;
 
+      console.log(tokenStr, quizId, BASE_URL, axios);
+
       // Quiz Take Endpoint
-      axios.get(`${BASE_URL}/quiztake/${quizId}`, { headers: { "Authorization": `Bearer ${tokenStr}` } }).then((response) => {
-        console.log(response);
-      }).catch((error) => {
-        console.log(error);
-      })
+      // axios.get(`${BASE_URL}/quiztake/${quizId}`, { headers: { "Authorization": `Bearer ${tokenStr}` } }).then((response) => {
+      //   console.log(response);
+      // }).catch((error) => {
+      //   console.log(error);
+      // })
 
       this.myQuizRoomCh.presence.enter({
         nickname: this.myNickname,

@@ -3,7 +3,6 @@ const { parentPort, workerData } = require('worker_threads');
 const Ably = require('ably/promises');
 const START_TIMER_SEC = 5;
 const QUESTION_TIMER_SEC = 30;
-
 const ABLY_API_KEY = process.env.ABLY_API_KEY;
 const globalPlayersState = {};
 const playerChannels = {};
@@ -25,17 +24,17 @@ console.log('room code is' + workerData.hostRoomCode);
 
 let questions = [];
 
-// const FetchQuestionFromServer = async () => {
-//   const question_response = await fetch(
-//     'https://dev.triviabillionia.com/api/quiz/questions/9'
-//   );
-//   const question_response_v = await question_response.json();
+const FetchQuestionFromServer = async () => {
+  const question_response = await fetch(
+    'https://dev.triviabillionia.com/api/quiz/questions/9'
+  );
+  const question_response_v = await question_response.json();
 
-//   customquestionFromApi = question_response_v;
-//   console.log(customquestionFromApi);
-// };
+  customquestionFromApi = question_response_v;
+  console.log(customquestionFromApi);
+};
 
-// FetchQuestionFromServer();
+FetchQuestionFromServer();
 
 const realtime = new Ably.Realtime({
   key: ABLY_API_KEY,

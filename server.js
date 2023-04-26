@@ -21,6 +21,8 @@ const realtime = new Ably.Realtime({
   echoMessages: false
 });
 
+app.set('views', path.join(__dirname, 'views'));
+
 app.use('/', serveStatic(path.join(__dirname, 'realtime-quiz/dist')));
 
 app.get('/auth', (request, response) => {
@@ -41,6 +43,11 @@ app.get('/auth', (request, response) => {
 const uniqueId = function () {
   return 'id-' + Math.random().toString(36).substr(2, 16);
 };
+
+// Change To Another Route
+app.get('/home', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/index.html'));
+});
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'realtime-quiz/dist/index.html'));

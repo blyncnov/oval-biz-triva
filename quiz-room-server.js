@@ -25,17 +25,17 @@ console.log('room code is' + workerData.hostRoomCode);
 
 let questions = [];
 
-const FetchQuestionFromServer = async () => {
-  const question_response = await fetch(
-    'https://dev.triviabillionia.com/api/quiz/questions/9'
-  );
-  const question_response_v = await question_response.json();
+// const FetchQuestionFromServer = async () => {
+//   const question_response = await fetch(
+//     'https://dev.triviabillionia.com/api/quiz/questions/9'
+//   );
+//   const question_response_v = await question_response.json();
 
-  customquestionFromApi = question_response_v;
-  console.log(customquestionFromApi);
-};
+//   customquestionFromApi = question_response_v;
+//   console.log(customquestionFromApi);
+// };
 
-FetchQuestionFromServer();
+// FetchQuestionFromServer();
 
 const realtime = new Ably.Realtime({
   key: ABLY_API_KEY,

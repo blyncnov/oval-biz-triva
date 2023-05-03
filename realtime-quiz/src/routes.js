@@ -5,9 +5,9 @@ import ProfilePage from './pages/profile.vue';
 import LeaderBoard from './pages/leaderboard.vue';
 
 export const routes = [
-  { path: '/play', component: PlayerHome },
-  { path: '', component: HostHome },
+  { path: '/game/play', component: PlayerHome },
+  { path: '/game', component: HostHome },
   { path: '/login', component: LoginPage },
-  { path: '/profile', component: ProfilePage },
-  { path: '/leaderboard', component: LeaderBoard }
+  { path: '/game/profile', component: ProfilePage },
+  { path: '/game/leaderboard', component: LeaderBoard }
 ];

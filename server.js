@@ -21,9 +21,27 @@ const realtime = new Ably.Realtime({
   echoMessages: false
 });
 
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 
-app.use('/', serveStatic(path.join(__dirname, 'realtime-quiz/dist')));
+//setting view engine to ejs
+app.set('view engine', 'ejs');
+
+//route for index page
+app.get('/', function (req, res) {
+  res.render('pages/index');
+});
+
+//route for about page
+app.get('/about', function (req, res) {
+  res.render('pages/about');
+});
+
+//route for login page
+app.get('/login', function (req, res) {
+  res.render('pages/login');
+});
+app.use(express.static(__dirname + '/dist'));
+app.use('', serveStatic(path.join(__dirname, 'realtime-quiz/dist')));
 
 app.get('/auth', (request, response) => {
   const tokenParams = { clientId: uniqueId() };
@@ -45,16 +63,13 @@ const uniqueId = function () {
 };
 
 // Change To Another Route
-app.get('/home', function (req, res) {
-  res.sendFile(path.join(__dirname + '/views/index.html'));
-});
-
-app.get('/', function (req, res) {
+app.get('/game', function (req, res) {
   res.sendFile(path.join(__dirname, 'realtime-quiz/dist/index.html'));
 });
 
-app.get('/play', function (req, res) {
+app.get('/game/play', function (req, res) {
   let requestedRoomCode = req.query.quizCode;
+  console.log(requestedRoomCode);
   if (activeQuizRooms[requestedRoomCode].didQuizStart === true) {
     res.sendFile(path.join(__dirname, 'realtime-quiz/dist/index.html'));
   } else {
@@ -62,7 +77,7 @@ app.get('/play', function (req, res) {
   }
 });
 
-app.get('/checkRoomStatus', function (req, res) {
+app.get('/game/checkRoomStatus', function (req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   let requestedRoomCode = req.query.quizCode;
   res.send({

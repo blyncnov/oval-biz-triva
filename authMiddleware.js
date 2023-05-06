@@ -8,7 +8,7 @@ module.exports.isAuthorized = function (req, res, next) {
     // const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     // console.log(decodedToken);
     if (!token) {
-      throw 'Invalid user ID';
+      res.redirect('/login');
     } else {
       next();
     }

@@ -7,6 +7,7 @@ const serveStatic = require('serve-static');
 const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const storage = require('node-sessionstorage');
 
 const app = express();
 const { ABLY_API_KEY } = envConfig.parsed;
@@ -110,9 +111,9 @@ app.post('/verifyotp', function (req, res) {
       .then((response) => {
         console.log('Token: ' + response.data.token);
         console.log('Username: ' + response.data.username);
-
-        // Save Token to Session
-
+        storage.setItem('token', response.data.token);
+        storage.setItem('username', response.data.username);
+        console.log('item set:', storage.getItem('token'));
         if (response.statusText === 'OK') {
           // Push to Start Game Page
           // Check If OTP is sucessful, redirect to game Menu

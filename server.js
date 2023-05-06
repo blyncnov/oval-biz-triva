@@ -84,6 +84,10 @@ app.get('/verifyotp', function (req, res) {
 // POST route for OTP
 app.post('/verifyotp', function (req, res) {
   const { phonenumber, emailaddress } = req.body;
+  const phone_nos = '08149055068';
+  let code_phone_nos = '+234' + phone_nos.slice(1);
+
+  // log data to console
   console.log(phonenumber, emailaddress);
 
   let myOTP =
@@ -99,18 +103,15 @@ app.post('/verifyotp', function (req, res) {
     axios
       .post(`${BASE_URL}/login`, {
         channel_type: 'phone',
-        channel_id: '+2348149055068',
+        channel_id: code_phone_nos,
         channel_email: emailaddress,
         channel_verification: myOTP
       })
       .then((response) => {
-        console.log(response);
         console.log('Token: ' + response.data.token);
         console.log('Username: ' + response.data.username);
 
-        // // Save Token to LocalStorage
-        // localStorage.setItem('username', response.data.username);
-        // localStorage.setItem('token', response.data.token);
+        // Save Token to Session
 
         if (response.statusText === 'OK') {
           // Push to Start Game Page

@@ -41,6 +41,7 @@ app.get('/', function (req, res) {
 
 //route for about page
 app.get('/about', function (req, res) {
+  console.log(req.headers);
   res.render('pages/about');
 });
 
@@ -112,6 +113,8 @@ app.post('/verifyotp', function (req, res) {
         console.log('Username: ' + response.data.username);
 
         // Save Token to Session
+        res.cookie('token', response.data.token);
+        req.headers['Authorization'] = response.data.token;
 
         if (response.statusText === 'OK') {
           // Push to Start Game Page

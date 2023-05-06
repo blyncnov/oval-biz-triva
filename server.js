@@ -5,11 +5,14 @@ const Ably = require('ably');
 const envConfig = require('dotenv').config();
 const serveStatic = require('serve-static');
 const path = require('path');
+const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
 const { ABLY_API_KEY } = envConfig.parsed;
 const globalQuizChName = 'main-quiz-thread';
+
+const BASE_URL = 'https://dev.triviabillionia.com/api';
 
 console.log(envConfig, ABLY_API_KEY);
 
@@ -51,12 +54,25 @@ app.get('/login', function (req, res) {
 
 //POST route for login page
 app.post('/login', function (req, res) {
-  console.log(req.body);
+  const { countrycode, phonenumber, emailaddress } = req.body;
+  console.log(countrycode, phonenumber, emailaddress);
 
-  let check = false;
+  try {
+    // Confirm and Verify Phone Number
+    axios
+      .get(
+        `${BASE_URL}/verify?type=1&number=${phonenumber}&country=ng&language=${countrycode}`
+      )
+      .then((response) => {
+        console.log(response.statusText);
 
-  if (!check) {
-    res.redirect('/verifyotp');
+        if (response.statusText === 'OK') {
+          // Go to OTP Route
+          res.redirect('/verifyotp');
+        }
+      });
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -67,6 +83,9 @@ app.get('/verifyotp', function (req, res) {
 
 // POST route for OTP
 app.post('/verifyotp', function (req, res) {
+  const { phonenumber, emailaddress } = req.body;
+  console.log(phonenumber, emailaddress);
+
   let myOTP =
     req.body['digit-1'] +
     req.body['digit-2'] +
@@ -74,15 +93,34 @@ app.post('/verifyotp', function (req, res) {
     req.body['digit-4'] +
     req.body['digit-5'] +
     req.body['digit-6'];
-  console.log(myOTP);
 
-  // Check If OTP is Failed, Do nothing
-  if (!myOTP) {
-    return;
+  try {
+    // Write Logic to authenticate
+    axios
+      .post(`${BASE_URL}/login`, {
+        channel_type: 'phone',
+        channel_id: '+2348149055068',
+        channel_email: emailaddress,
+        channel_verification: myOTP
+      })
+      .then((response) => {
+        console.log(response);
+        console.log('Token: ' + response.data.token);
+        console.log('Username: ' + response.data.username);
+
+        // // Save Token to LocalStorage
+        // localStorage.setItem('username', response.data.username);
+        // localStorage.setItem('token', response.data.token);
+
+        if (response.statusText === 'OK') {
+          // Push to Start Game Page
+          // Check If OTP is sucessful, redirect to game Menu
+          res.redirect('/game');
+        }
+      });
+  } catch (error) {
+    console.log(error);
   }
-
-  // Check If OTP is sucessful, redirect to game Menu
-  res.redirect('/game');
 });
 
 app.get('/auth', (request, response) => {

@@ -8,6 +8,7 @@ const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const storage = require('node-sessionstorage');
+const auth = require('./authMiddleware');
 
 const app = express();
 const { ABLY_API_KEY } = envConfig.parsed;
@@ -109,11 +110,12 @@ app.post('/verifyotp', function (req, res) {
         channel_verification: myOTP
       })
       .then((response) => {
+        req.user = response.data.token;
         console.log('Token: ' + response.data.token);
         console.log('Username: ' + response.data.username);
         storage.setItem('token', response.data.token);
         storage.setItem('username', response.data.username);
-        console.log('item set:', storage.getItem('token'));
+
         if (response.statusText === 'OK') {
           // Push to Start Game Page
           // Check If OTP is sucessful, redirect to game Menu
@@ -145,7 +147,7 @@ const uniqueId = function () {
 };
 
 // Change To Another Route
-app.get('/game', function (req, res) {
+app.get('/game', auth.isAuthorized, function (req, res) {
   res.sendFile(path.join(__dirname, 'realtime-quiz/dist/index.html'));
 });
 

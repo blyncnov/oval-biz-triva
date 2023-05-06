@@ -114,15 +114,12 @@ app.post('/verifyotp', function (req, res) {
         req.user = response.data.token;
         console.log('Token: ' + response.data.token);
         console.log('Username: ' + response.data.username);
-<<<<<<< HEAD
         storage.setItem('token', response.data.token);
         storage.setItem('username', response.data.username);
-=======
 
         // Save Token to Session
         res.cookie('token', response.data.token);
         req.headers['Authorization'] = response.data.token;
->>>>>>> 237cc4b9cdf1bb1d57ce54d092f763018419c3ae
 
         if (response.statusText === 'OK') {
           // Push to Start Game Page

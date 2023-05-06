@@ -1,0 +1,135 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #173052;
+}
+
+.auth_section {
+  width: 100%;
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1em 0;
+}
+
+.auth_container {
+  width: 100%;
+  max-width: 500px;
+  padding: 2em 1em;
+  border-radius: 2px;
+  background-color: white;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.grouped_field {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.submit_field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.auth-btn {
+  color: white !important;
+  font-weight: 600;
+  padding: 12px 24px;
+  background-color: #173052 !important;
+}
+
+.validate_otp {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.otp-btn {
+  color: white !important;
+  font-weight: 600;
+  padding: 10px 24px;
+  background-color: #173052 !important;
+}
+
+.auth-input,
+.auth-selection {
+  width: 100%;
+  padding: 1em 1em;
+}
+
+.auth-selection {
+  color: black !important;
+  border-radius: 3px !important;
+  padding: 0.8em 1em !important;
+  background-color: rgba(128, 128, 128, 0.057) !important;
+}
+
+.note_section {
+  width: auto;
+  padding: 1em 0;
+}
+
+.note_section ul {
+  padding: 0.5em;
+}
+
+@media (max-width: 800px) {
+  .auth_container {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  .auth_container {
+    max-width: 95%;
+  }
+}
+
+.digit-group {
+  background-color: #0f0f1a05;
+  padding: 3em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row !important;
+}
+
+.digit-group input {
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  border: 1px solid #3333332c !important;
+  border: none;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 200;
+  color: black !important;
+  margin: 0 2px;
+}
+
+.digit-group .splitter {
+  padding: 0 5px;
+  color: white;
+  font-size: 24px;
+}
+
+.prompt {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: white;
+}

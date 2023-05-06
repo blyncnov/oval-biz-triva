@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Host Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #173052;
+    }
+
+    .auth_section {
+        width: 100%;
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 1em 0;
+    }
+
+    .auth_container {
+        width: 100%;
+        max-width: 500px;
+        padding: 2em 1em;
+        border-radius: 2px;
+        background-color: white;
+    }
+
+    form {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+
+
+    .grouped_field {
+        width: 100%;
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+    }
+
+    .submit_field {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .auth-btn {
+        color: white !important;
+        font-weight: 600;
+        padding: 12px 24px;
+        background-color: #173052 !important;
+    }
+
+    .validate_otp {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .otp-btn {
+        color: white !important;
+        font-weight: 600;
+        padding: 10px 24px;
+        background-color: #173052 !important;
+    }
+
+    .auth-input,
+    .auth-selection {
+        width: 100%;
+        padding: 1em 1em;
+    }
+
+    .auth-selection {
+        color: black !important;
+        border-radius: 3px !important;
+        padding: .8em 1em !important;
+        background-color: rgba(128, 128, 128, 0.057) !important;
+    }
+
+    .note_section {
+        width: auto;
+        padding: 1em 0;
+    }
+
+    .note_section ul {
+        padding: .5em;
+    }
+
+    @media (max-width: 800px) {
+        .auth_container {
+            max-width: 90%;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .auth_container {
+            max-width: 95%;
+        }
+    }
+
+    .digit-group .otp_grid {
+        background-color: #0f0f1a05;
+        padding: 3em 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row !important;
+    }
+
+
+    .digit-group input {
+        width: 50px;
+        height: 50px;
+        background-color: #ffffff;
+        border: 1px solid #3333332c !important;
+        border: none;
+        line-height: 50px;
+        text-align: center;
+        font-size: 24px;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 200;
+        color: black !important;
+        margin: 0 2px;
+    }
+
+    .digit-group .splitter {
+        padding: 0 5px;
+        color: white;
+        font-size: 24px;
+    }
+
+    .prompt {
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: white;
+    }
+
+</style>
+
+<body>
+
+    <div class="auth_section">
+        <div class="auth_container">
+            <div>
+                <p>Enter the 6-digit code we sent to +2348149055068 </p>
+            </div>
+            <br>
+            <div>
+                <form method="post" action="/verifyotp" class="digit-group" data-group-name="digits" id="otpverifyform"
+                    data-autosubmit="false" autocomplete="off">
+
+                    <div class="otp_grid">
+                        <input type="text" id="digit-1" name="digit-1" data-next="digit-2" maxlength="1" />
+                        <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1"
+                            maxlength="1" />
+                        <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2"
+                            maxlength="1" />
+                        <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3"
+                            maxlength="1" />
+                        <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4"
+                            maxlength="1" />
+                        <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" maxlength="1" />
+
+                    </div>
+                    <br>
+                    <div class="validate_otp">
+                        <button class="btn otp-btn" type="submit">Next</button>
+                    </div>
+                </form>
+            </div>
+            <div class="note_section">
+                <p>Note:</p>
+                <ul>
+                    <li>TriviaBillionia is available in only Nigeria currently</li>
+                    <li>Input your phon number & email to get OTP 6 digit code send to both (email is optional
+                        but include
+                        it just in case SMS delivery takes a while)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <!-- <script src="../../assets/js/login.js"></script> -->
+    <script>
+
+        const OTPVerifyForm = document.getElementById("otpverifyform");
+
+        OTPVerifyForm.addEventListener("submit", function (event) {
+
+            // event.preventDefault()
+            console.log("submitting login form");
+
+        });
+    </script>
+</body>
+
+</html>

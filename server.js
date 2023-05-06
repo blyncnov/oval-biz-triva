@@ -5,12 +5,17 @@ const Ably = require('ably');
 const envConfig = require('dotenv').config();
 const serveStatic = require('serve-static');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
 const { ABLY_API_KEY } = envConfig.parsed;
 const globalQuizChName = 'main-quiz-thread';
 
 console.log(envConfig, ABLY_API_KEY);
+
+// parse various different custom JSON types as JSON
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
 let globalQuizChannel;
 const activeQuizRooms = {};
@@ -36,12 +41,49 @@ app.get('/about', function (req, res) {
   res.render('pages/about');
 });
 
+app.use(express.static(__dirname + '/dist'));
+app.use('', serveStatic(path.join(__dirname, 'realtime-quiz/dist')));
+
 //route for login page
 app.get('/login', function (req, res) {
   res.render('pages/login');
 });
-app.use(express.static(__dirname + '/dist'));
-app.use('', serveStatic(path.join(__dirname, 'realtime-quiz/dist')));
+
+//POST route for login page
+app.post('/login', function (req, res) {
+  console.log(req.body);
+
+  let check = false;
+
+  if (!check) {
+    res.redirect('/verifyotp');
+  }
+});
+
+// route for OTP
+app.get('/verifyotp', function (req, res) {
+  res.render('pages/otp');
+});
+
+// POST route for OTP
+app.post('/verifyotp', function (req, res) {
+  let myOTP =
+    req.body['digit-1'] +
+    req.body['digit-2'] +
+    req.body['digit-3'] +
+    req.body['digit-4'] +
+    req.body['digit-5'] +
+    req.body['digit-6'];
+  console.log(myOTP);
+
+  // Check If OTP is Failed, Do nothing
+  if (!myOTP) {
+    return;
+  }
+
+  // Check If OTP is sucessful, redirect to game Menu
+  res.redirect('/game');
+});
 
 app.get('/auth', (request, response) => {
   const tokenParams = { clientId: uniqueId() };

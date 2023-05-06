@@ -130,7 +130,7 @@ export default {
       btnText: 'Create my quiz room',
       createBtnClicked: false,
       isRoomReady: false,
-      playerLinkBase: window.location.href + 'play',
+      playerLinkBase: window.location.href + '/play',
       playerLink: null,
       copyBtnText: 'Copy shareable link',
       copyClicked: false,

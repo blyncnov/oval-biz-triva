@@ -27,19 +27,18 @@ console.log('room code is' + workerData.hostRoomCode);
 let questions = [];
 let BASE_URL = 'https://dev.triviabillionia.com/api';
 
-const FetchQuestionFromServer = () => {
-  let tokenStr = storage.getItem('token');
-  let quizId = 9;
-  axios
-    .get(`${BASE_URL}/quiz/questions/${quizId}`, {
-      headers: { Authorization: `Bearer ${tokenStr}` }
-    })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+let tokenStr =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rldi50cml2aWFiaWxsaW9uaWEuY29tL2FwaS9sb2dpbiIsImlhdCI6MTY4Mzc0MjQ1NiwiZXhwIjoxNjgzNzQ2MDU2LCJuYmYiOjE2ODM3NDI0NTYsImp0aSI6IjZjSUxQd1hvaE9sTThqUXUiLCJzdWIiOjUwLCJwcnYiOiJlMmViMjUzMjlmZjM0NjYxZTRmZDA1ZWU5YTY2MzE0ZTc4Nzk4NjIxIiwiaWQiOjUwLCJ1c2VybmFtZSI6bnVsbCwiYXZhdGFyIjoiIn0.JvdRBAmW8aTgIh42NiWLBmVRJ5q_Cu90T1_qE6thVLU';
+
+const FetchQuestionFromServer = async () => {
+  const question_response = await fetch(
+    'https://dev.triviabillionia.com/api/quiz/questions/9',
+    { headers: { Authorization: `Bearer ${tokenStr}` } }
+  );
+  const question_response_v = await question_response.json();
+
+  customquestionFromApi = question_response_v;
+  console.log(customquestionFromApi);
 };
 
 FetchQuestionFromServer();

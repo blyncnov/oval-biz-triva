@@ -1,6 +1,8 @@
 // const randomQuestions = require('./quiz-questions.json');
 const { parentPort, workerData } = require('worker_threads');
 const Ably = require('ably/promises');
+const axios = require('axios');
+const storage = require('node-sessionstorage');
 const START_TIMER_SEC = 5;
 const QUESTION_TIMER_SEC = 30;
 const ABLY_API_KEY = process.env.ABLY_API_KEY;
@@ -23,18 +25,24 @@ console.log('this is the worker thread');
 console.log('room code is' + workerData.hostRoomCode);
 
 let questions = [];
+let BASE_URL = 'https://dev.triviabillionia.com/api';
 
-// const FetchQuestionFromServer = async () => {
-//   const question_response = await fetch(
-//     'https://dev.triviabillionia.com/api/quiz/questions/9'
-//   );
-//   const question_response_v = await question_response.json();
+const FetchQuestionFromServer = () => {
+  let tokenStr = storage.getItem('token');
+  let quizId = 9;
+  axios
+    .get(`${BASE_URL}/quiz/questions/${quizId}`, {
+      headers: { Authorization: `Bearer ${tokenStr}` }
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
-//   customquestionFromApi = question_response_v;
-//   console.log(customquestionFromApi);
-// };
-
-// FetchQuestionFromServer();
+FetchQuestionFromServer();
 
 const realtime = new Ably.Realtime({
   key: ABLY_API_KEY,

@@ -24,17 +24,21 @@ console.log('room code is' + workerData.hostRoomCode);
 
 let questions = [];
 
-// const FetchQuestionFromServer = async () => {
-//   const question_response = await fetch(
-//     'https://dev.triviabillionia.com/api/quiz/questions/9'
-//   );
-//   const question_response_v = await question_response.json();
+let tokenStr =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rldi50cml2aWFiaWxsaW9uaWEuY29tL2FwaS9sb2dpbiIsImlhdCI6MTY4Mzc0MjQ1NiwiZXhwIjoxNjgzNzQ2MDU2LCJuYmYiOjE2ODM3NDI0NTYsImp0aSI6IjZjSUxQd1hvaE9sTThqUXUiLCJzdWIiOjUwLCJwcnYiOiJlMmViMjUzMjlmZjM0NjYxZTRmZDA1ZWU5YTY2MzE0ZTc4Nzk4NjIxIiwiaWQiOjUwLCJ1c2VybmFtZSI6bnVsbCwiYXZhdGFyIjoiIn0.JvdRBAmW8aTgIh42NiWLBmVRJ5q_Cu90T1_qE6thVLU';
 
-//   customquestionFromApi = question_response_v;
-//   console.log(customquestionFromApi);
-// };
+const FetchQuestionFromServer = async () => {
+  const question_response = await fetch(
+    'https://dev.triviabillionia.com/api/quiz/questions/9',
+    { headers: { Authorization: `Bearer ${tokenStr}` } }
+  );
+  const question_response_v = await question_response.json();
 
-// FetchQuestionFromServer();
+  customquestionFromApi = question_response_v;
+  console.log(customquestionFromApi);
+};
+
+FetchQuestionFromServer();
 
 const realtime = new Ably.Realtime({
   key: ABLY_API_KEY,

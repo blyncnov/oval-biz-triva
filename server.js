@@ -16,6 +16,9 @@ const globalQuizChName = 'main-quiz-thread';
 
 const BASE_URL = 'https://dev.triviabillionia.com/api';
 
+let user_phone_number = '';
+let user_email_address = '';
+
 console.log(envConfig, ABLY_API_KEY);
 
 // parse various different custom JSON types as JSON
@@ -58,6 +61,12 @@ app.get('/login', function (req, res) {
 //POST route for login page
 app.post('/login', function (req, res) {
   const { countrycode, phonenumber, emailaddress } = req.body;
+
+  // Save User Nos
+  user_phone_number = phonenumber;
+  user_email_address = emailaddress;
+
+  // Log Value
   console.log(countrycode, phonenumber, emailaddress);
 
   try {
@@ -87,7 +96,10 @@ app.get('/verifyotp', function (req, res) {
 // POST route for OTP
 app.post('/verifyotp', function (req, res) {
   const { phonenumber, emailaddress } = req.body;
-  const phone_nos = '08149055068';
+
+  console.log(user_phone_number + 'user_phone_number saved globally');
+
+  const phone_nos = user_phone_number || '08149055068';
   let code_phone_nos = '+234' + phone_nos.slice(1);
 
   // log data to console
@@ -107,7 +119,7 @@ app.post('/verifyotp', function (req, res) {
       .post(`${BASE_URL}/login`, {
         channel_type: 'phone',
         channel_id: code_phone_nos,
-        channel_email: emailaddress,
+        channel_email: user_email_address,
         channel_verification: myOTP
       })
       .then((response) => {

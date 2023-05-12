@@ -1,6 +1,5 @@
-let IdentityRapped = 'APP ID';
-const { Worker, isMainThread, threadId } = require('worker_threads');
 const express = require('express');
+const { Worker, isMainThread, threadId } = require('worker_threads');
 const Ably = require('ably');
 const envConfig = require('dotenv').config();
 const serveStatic = require('serve-static');
@@ -18,6 +17,7 @@ const BASE_URL = 'https://dev.triviabillionia.com/api';
 
 let user_phone_number = '';
 let user_email_address = '';
+let authorizationToken = 'faketokeniniial';
 
 console.log(envConfig, ABLY_API_KEY);
 
@@ -34,8 +34,6 @@ const realtime = new Ably.Realtime({
   echoMessages: false
 });
 
-// app.set('views', path.join(__dirname, 'views'));
-
 //setting view engine to ejs
 app.set('view engine', 'ejs');
 
@@ -46,8 +44,8 @@ app.get('/', function (req, res) {
 
 //route for about page
 app.get('/about', function (req, res) {
-  console.log(req.headers);
-  res.render('pages/about');
+  console.log(authorizationToken);
+  res.render('pages/about', { token: authorizationToken });
 });
 
 app.use(express.static(__dirname + '/dist'));
@@ -126,6 +124,8 @@ app.post('/verifyotp', function (req, res) {
         req.user = response.data.token;
         console.log('Token: ' + response.data.token);
         console.log('Username: ' + response.data.username);
+
+        // Save Token to Session Using sessionstorage
         storage.setItem('token', response.data.token);
         storage.setItem('username', response.data.username);
 
@@ -133,9 +133,10 @@ app.post('/verifyotp', function (req, res) {
         res.cookie('token', response.data.token);
         req.headers['Authorization'] = response.data.token;
 
+        authorizationToken = response.data.token;
+
         if (response.statusText === 'OK') {
-          // Push to Start Game Page
-          // Check If OTP is sucessful, redirect to game Menu
+          // Check If OTP is sucessful,Push to Start Game Page
           res.redirect('/game');
         }
       });

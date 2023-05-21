@@ -7,10 +7,11 @@ const serveStatic = require('serve-static');
 const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const storage = require('node-sessionstorage');
 const auth = require('./authMiddleware');
-
 const app = express();
+const { storeReq } = require('./tokenMiddleware');
+app.use(storeReq);
+
 const { ABLY_API_KEY } = envConfig.parsed;
 const globalQuizChName = 'main-quiz-thread';
 
@@ -124,10 +125,6 @@ app.post('/verifyotp', function (req, res) {
       })
       .then((response) => {
         req.user = response.data.token;
-        console.log('Token: ' + response.data.token);
-        console.log('Username: ' + response.data.username);
-        storage.setItem('token', response.data.token);
-        storage.setItem('username', response.data.username);
 
         // Save Token to Session
         res.cookie('token', response.data.token);

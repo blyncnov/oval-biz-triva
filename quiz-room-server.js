@@ -2,7 +2,6 @@
 const { parentPort, workerData } = require('worker_threads');
 const Ably = require('ably/promises');
 const axios = require('axios');
-const storage = require('node-sessionstorage');
 const START_TIMER_SEC = 5;
 const QUESTION_TIMER_SEC = 30;
 const ABLY_API_KEY = process.env.ABLY_API_KEY;
@@ -20,28 +19,29 @@ let numPlayersAnswered = 0;
 let customQuestions = [];
 let customquestionFromApi = [];
 let skipTimer = false;
-
 console.log('this is the worker thread');
 console.log('room code is' + workerData.hostRoomCode);
 
-let questions = [];
-let BASE_URL = 'https://dev.triviabillionia.com/api';
+// some-file.js
 
-let tokenStr =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rldi50cml2aWFiaWxsaW9uaWEuY29tL2FwaS9sb2dpbiIsImlhdCI6MTY4Mzc0MjQ1NiwiZXhwIjoxNjgzNzQ2MDU2LCJuYmYiOjE2ODM3NDI0NTYsImp0aSI6IjZjSUxQd1hvaE9sTThqUXUiLCJzdWIiOjUwLCJwcnYiOiJlMmViMjUzMjlmZjM0NjYxZTRmZDA1ZWU5YTY2MzE0ZTc4Nzk4NjIxIiwiaWQiOjUwLCJ1c2VybmFtZSI6bnVsbCwiYXZhdGFyIjoiIn0.JvdRBAmW8aTgIh42NiWLBmVRJ5q_Cu90T1_qE6thVLU';
+const { getReq } = require('./tokenMiddleware');
+console.log(getReq());
 
-const FetchQuestionFromServer = async () => {
-  const question_response = await fetch(
-    'https://dev.triviabillionia.com/api/quiz/questions/9',
-    { headers: { Authorization: `Bearer ${tokenStr}` } }
-  );
-  const question_response_v = await question_response.json();
+// Access the req object
+//  let questions = [];
+//  const BASE_URL = 'https:dev.triviabillionia.com/api';
+//  const tokenStr = req?.trim().split('=')[1];
+//  const FetchQuestionFromServer = async () => {
+//    const question_response = await fetch(`${BASE_URL}/quiz/questions/9`, {
+//      headers: { Authorization: `Bearer ${tokenStr}` }
+//    });
+//    const question_response_v = await question_response.json();
 
-  customquestionFromApi = question_response_v;
-  console.log(customquestionFromApi);
-};
+//    customquestionFromApi = question_response_v;
+//    console.log(customquestionFromApi);
+//  };
 
-FetchQuestionFromServer();
+//  FetchQuestionFromServer();
 
 const realtime = new Ably.Realtime({
   key: ABLY_API_KEY,

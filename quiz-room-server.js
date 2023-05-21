@@ -1,3 +1,4 @@
+const storage = require('node-sessionstorage');
 // const randomQuestions = require('./quiz-questions.json');
 const { parentPort, workerData } = require('worker_threads');
 const Ably = require('ably/promises');
@@ -26,6 +27,11 @@ console.log('room code is' + workerData.hostRoomCode);
 
 const { getReq } = require('./tokenMiddleware');
 console.log(getReq());
+const tokenStr = storage.getItem('token');
+console.log('MY YOKEN IS MAD : ' + ' t' + tokenStr + 'MY YOKEN IS MAD');
+
+// let tokenStr =
+//   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rldi50cml2aWFiaWxsaW9uaWEuY29tL2FwaS9sb2dpbiIsImlhdCI6MTY4MzgyODQ2MywiZXhwIjoxNjgzODMyMDYzLCJuYmYiOjE2ODM4Mjg0NjMsImp0aSI6IjZuZ0FGWlJGckhPUVdXS08iLCJzdWIiOjUwLCJwcnYiOiJlMmViMjUzMjlmZjM0NjYxZTRmZDA1ZWU5YTY2MzE0ZTc4Nzk4NjIxIiwiaWQiOjUwLCJ1c2VybmFtZSI6bnVsbCwiYXZhdGFyIjoiIn0.Rl85Xp6ScaqWtGbBY_ZCCWIa86YGen9Krl9tVi9UW_U';
 
 // Access the req object
 //  let questions = [];

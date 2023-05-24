@@ -6,10 +6,11 @@ const serveStatic = require('serve-static');
 const path = require('path');
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const storage = require('node-sessionstorage');
 const auth = require('./authMiddleware');
-
 const app = express();
+const { storeReq } = require('./tokenMiddleware');
+app.use(storeReq);
+
 const { ABLY_API_KEY } = envConfig.parsed;
 const globalQuizChName = 'main-quiz-thread';
 

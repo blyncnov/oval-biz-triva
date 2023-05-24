@@ -2,6 +2,7 @@ const storage = require('node-sessionstorage');
 // const randomQuestions = require('./quiz-questions.json');
 const { parentPort, workerData } = require('worker_threads');
 const Ably = require('ably/promises');
+const axios = require('axios');
 const START_TIMER_SEC = 5;
 const QUESTION_TIMER_SEC = 30;
 const ABLY_API_KEY = process.env.ABLY_API_KEY;
@@ -19,30 +20,34 @@ let numPlayersAnswered = 0;
 let customQuestions = [];
 let customquestionFromApi = [];
 let skipTimer = false;
-
 console.log('this is the worker thread');
 console.log('room code is' + workerData.hostRoomCode);
 
-let questions = [];
+// some-file.js
 
+const { getReq } = require('./tokenMiddleware');
+console.log(getReq());
 const tokenStr = storage.getItem('token');
 console.log('MY YOKEN IS MAD : ' + ' t' + tokenStr + 'MY YOKEN IS MAD');
 
 // let tokenStr =
 //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rldi50cml2aWFiaWxsaW9uaWEuY29tL2FwaS9sb2dpbiIsImlhdCI6MTY4MzgyODQ2MywiZXhwIjoxNjgzODMyMDYzLCJuYmYiOjE2ODM4Mjg0NjMsImp0aSI6IjZuZ0FGWlJGckhPUVdXS08iLCJzdWIiOjUwLCJwcnYiOiJlMmViMjUzMjlmZjM0NjYxZTRmZDA1ZWU5YTY2MzE0ZTc4Nzk4NjIxIiwiaWQiOjUwLCJ1c2VybmFtZSI6bnVsbCwiYXZhdGFyIjoiIn0.Rl85Xp6ScaqWtGbBY_ZCCWIa86YGen9Krl9tVi9UW_U';
 
-const FetchQuestionFromServer = async () => {
-  const question_response = await fetch(
-    'https://dev.triviabillionia.com/api/quiz/questions/9',
-    { headers: { Authorization: `Bearer ${tokenStr}` } }
-  );
-  const question_response_v = await question_response.json();
+// Access the req object
+//  let questions = [];
+//  const BASE_URL = 'https:dev.triviabillionia.com/api';
+//  const tokenStr = req?.trim().split('=')[1];
+//  const FetchQuestionFromServer = async () => {
+//    const question_response = await fetch(`${BASE_URL}/quiz/questions/9`, {
+//      headers: { Authorization: `Bearer ${tokenStr}` }
+//    });
+//    const question_response_v = await question_response.json();
 
-  customquestionFromApi = question_response_v;
-  console.log(customquestionFromApi);
-};
+//    customquestionFromApi = question_response_v;
+//    console.log(customquestionFromApi);
+//  };
 
-FetchQuestionFromServer();
+//  FetchQuestionFromServer();
 
 const realtime = new Ably.Realtime({
   key: ABLY_API_KEY,
